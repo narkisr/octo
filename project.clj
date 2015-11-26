@@ -6,6 +6,8 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [tentacles "0.4.0"] 
                  [me.raynes/fs "1.4.6"]                 
+                 [com.taoensso/timbre "4.1.4"]
+                 [clj-jgit "0.8.8"]
                  ; ring
                  [clj-yaml "0.4.0"]
                  [org.clojure/data.json "0.2.2" ]
