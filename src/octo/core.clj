@@ -1,19 +1,26 @@
 (ns octo.core 
   (:require 
+    [taoensso.timbre :as timbre]
     [octo.jetty :refer (start restart)]
+    [octo.config :as config]
     [octo.api :refer (app)]
-    [octo.repos :refer (clone load-config)]
-    )
+    [octo.repos :refer (clone)])
   (:use 
     ring.adapter.jetty
     [me.raynes.fs :only  [mkdir exists? expand-home]]
     [clojure.java.shell :only [sh]]))
 
-(defn -main [user action] 
+(timbre/refer-timbre)
+
+(defn -main [action] 
     (case action
-      "clone" (clone user)
+      "clone" 
+      (let [{:keys [repos workspace]} (config/load-config)]
+        (doseq [{:keys [user layouts]} repos] 
+          (info "Cloning repos for: " user)
+          (clone user workspace layouts)))
       "push" identity
-      "server" (run-jetty {:port 8080})
+      "server" (run-jetty app {:port 8080})
     ))
 
-(restart app) 
+;; (restart app) 

@@ -1,3 +1,13 @@
 {
- :path "/tmp/workspace" 
+ :workspace "/tmp/workspace" 
+ :repos [
+    {:user "narkisr" 
+     :exclude [] 
+     :layouts [] 
+    }       
+    {:user "opskeleton"
+     :exclude []
+     :layouts [["\\.*box" "boxes"]] 
+    }       
+  ]
 }

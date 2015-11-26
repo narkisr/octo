@@ -1,5 +1,6 @@
 (ns octo.api
   (:require 
+   [octo.config :as config]
    [octo.repos :refer (clone list-workspace)]
    [ring.middleware.reload :refer [wrap-reload]]
    [compojure.core :refer :all]
@@ -10,7 +11,7 @@
 
 (defroutes app-routes
   (GET "/repos/list" [] 
-    {:status 200 :body {:repos (list-workspace)}})
+    {:status 200 :body {:repos (list-workspace "/tmp/workspace")}})
   (GET "/repos/clone/:user" [user] 
     (future (clone user))
     {:status 200 :body "starting to clone"})
