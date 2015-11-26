@@ -15,7 +15,7 @@ init =
     (Model [], getRepos)
 
 type alias Repository = 
- {url : String, name : String} 
+ {url : String, name : String, statusChanged : Bool} 
 
 type alias Model = 
   { repos : List Repository }
@@ -46,12 +46,15 @@ partition n list =
 
 repoPanel : Repository -> Html
 repoPanel repo =
-  div [class "col-md-4 col-xs-4"] [
-    div [class "panel panel-default "]  [
-       div [class "panel-heading", style [("background", "red")]] [(text repo.name)]
-     , div [class "panel-body"] [(text ("url: " ++ repo.url))]
-    ]
-  ]
+  let
+    rgb = if repo.statusChanged then "red" else "green"
+  in 
+    div [class "col-md-4 col-xs-4"] [
+      div [class "panel panel-default "]  [
+         div [class "panel-heading", style [("background", rgb)]] [(text repo.name)]
+       , div [class "panel-body"] [(text ("url: " ++ repo.url))]
+     ]
+   ]
 
 view : Signal.Address Action -> Model -> Html
 view address ({repos} as model) = 
@@ -61,9 +64,10 @@ view address ({repos} as model) =
 
 repo : Decoder Repository
 repo = 
-  object2 Repository
+  object3 Repository
     ("url" := string)
     ("name" := string)
+    ("status-changed" := bool)
 
  
 repos : Decoder (List Repository)

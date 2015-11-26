@@ -11,3 +11,6 @@ pom.xml.asc
 .lein-plugins
 .lein-repl-history
 .nrepl-port
+public/elm/elm-stuff
+public/elm/node_modules
+public/elm/bower_components
