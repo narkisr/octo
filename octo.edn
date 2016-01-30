@@ -1,13 +1,21 @@
 {
- :workspace "/tmp/workspace" 
+ :workspace "/home/ronen/workspace" 
  :repos [
     {:user "narkisr" 
      :exclude [] 
-     :layouts [] 
+     :layouts [[".*" "narkisr"]] 
     }       
     {:user "opskeleton"
      :exclude []
-     :layouts [["\\.*box" "boxes"]] 
+     :layouts [[".*" "opskeleton"]] 
     }       
+    {:user "celestial-ops"
+     :exclude []
+     :layouts [[".*" "celestial"]] 
+    }
+    {:user "pulling-strings"
+     :exclude []
+     :layouts [[".*" "strings"]] 
+    }
   ]
 }
