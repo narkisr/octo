@@ -1,0 +1,3 @@
+[submodule "public/elm/modules/elm-http"]
+	path = public/elm/modules/elm-http
+	url = git://github.com/narkisr/elm-http.git

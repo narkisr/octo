@@ -7,6 +7,7 @@ import Set
 import Http exposing (Error(BadResponse))
 import Task
 import Json.Decode as Json exposing (..)
+import Nav.Side as NavSide exposing (Active(Repos), Section(List, Backup))
 
 import Debug
 
@@ -26,13 +27,13 @@ type Action =
 update : Action ->  Model-> (Model , Effects Action)
 update action model =
   case action of 
-   Load result -> 
-     case result of
-        Result.Ok repos -> 
-          ({ model | repos <- repos }, Effects.none)
-        Result.Err e -> 
-          case e of 
-             _ -> 
+    Load result -> 
+      case result of
+         Result.Ok repos -> 
+           ({ model | repos = repos }, Effects.none)
+         Result.Err e -> 
+           case e of 
+              _ -> 
                Debug.log (toString e) (model , Effects.none)
 
 partition n list =

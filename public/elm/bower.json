@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "jquery": "v1.11.3",
+    "admin-lte":"2.3.2",
     "jquery-contextmenu":"git@github.com:swisnl/jQuery-contextMenu.git#v2.0.0"
   }
 }
