@@ -4,4 +4,4 @@
 
 (defn load-config 
   ([] (load-config "octo.edn"))
-  ([c]  (edn/read-string (slurp ))))
+  ([c]  (edn/read-string (slurp c))))
