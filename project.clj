@@ -1,22 +1,17 @@
-(defproject octo "0.1.0"
-  :description "A small octo backup tool"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [tentacles "0.4.0"] 
+(defproject octo "0.2.0"
+  :description "Github backup tool"
+  :url "https://github.com/narkisr/octo-rewind"
+  :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [clj-yaml "0.4.0"]
+                 [tentacles "0.5.2"] 
                  [me.raynes/fs "1.4.6"]                 
                  [com.taoensso/timbre "4.1.4"]
-                 [clj-jgit "0.8.8"]
-                 ; ring
-                 [clj-yaml "0.4.0"]
-                 [org.clojure/data.json "0.2.2" ]
-                 [ring-middleware-format "0.5.0"]
-                 [ring/ring-jetty-adapter "1.3.2"]
-                 [ring "1.3.2"]
-                 [compojure "1.3.4" :exclusions  [ring/ring-core]]]
+                 [clj-jgit "0.8.9"]]
+  :plugins [
+     [lein-ancient "0.6.7" :exclusions [org.clojure/clojure]]
+     [lein-tag "0.1.0"] [lein-set-version "0.3.0"]]
 
-  :plugins [[lein-tarsier "0.10.0"]] 
   :aot  [octo.core]
   :main octo.core
   )
