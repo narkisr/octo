@@ -12,7 +12,7 @@
 
 (defn -main [c & args]
   (let [{:keys [repos workspace]} (config/load-config c)]
-     (doseq [{:keys [user layouts]} repos] 
-        (info "Cloning repos for: " user)
-        (clone user workspace layouts))))
+     (doseq [{:keys [user layouts options]} repos] 
+        (info "Cloning repos from:" user)
+        (clone user workspace layouts options))))
 
