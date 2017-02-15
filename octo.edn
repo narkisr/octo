@@ -1,21 +1,22 @@
 {
- :workspace "/home/ronen/workspace" 
+ :workspace "/home/ronen/workspace"
  :repos [
-    {:user "narkisr" 
-     :exclude [] 
-     :layouts [[".*" "narkisr"]] 
-    }       
+    {:user "narkisr"
+     :options {:fpm-barbecue {:branch "master"}}
+     :exclude []
+     :layouts [["elm-*" "narkisr/elm"] [".*" "narkisr"]]
+    }
     {:user "opskeleton"
      :exclude []
-     :layouts [[".*" "opskeleton"]] 
-    }       
+     :layouts [[".*" "opskeleton"]]
+    }
     {:user "celestial-ops"
      :exclude []
-     :layouts [[".*" "celestial"]] 
+     :layouts [[".*" "celestial"]]
     }
     {:user "pulling-strings"
      :exclude []
-     :layouts [[".*" "strings"]] 
+     :layouts [[".*" "strings"]]
     }
   ]
 }
