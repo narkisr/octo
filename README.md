@@ -1,16 +1,17 @@
 # Intro
 
-Backup your Github repos ([Gitlab](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
+Backup your Github repos (pushing your code isn't a backup [Gitlab](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
 
 # Usage
 
-```bash 
+```bash
  $ octo octo.edn
 ```
 
 ## Configuration
 octo.edn describes the users/orgs to backup and options for each:
 
+```clojure
 {
  :workspace "/home/ronen/workspace"
  :repos [
@@ -33,15 +34,16 @@ octo.edn describes the users/orgs to backup and options for each:
     }
   ]
 }
+```
 
-Where: 
+Where:
 
 * workspace: backup destination folder
 * repos:  a collection of users/orgs we want to backup:
   * options: specific repo options (like selecting a single branch to back up).
   * exclude: which repos not to back up.
   * layouts: mapping of the folder structure of backups.
- 
+
 ## Backup lifecycle
 
 Each repo:
