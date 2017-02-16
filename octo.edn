@@ -2,7 +2,7 @@
  :workspace "/home/ronen/workspace"
  :repos [
     {:user "narkisr"
-     :auth "b63a4b97c45d3f4b0e599e3a24046378f0ce3d49"
+     :auth ""
      :options {:fpm-barbecue {:branch "master"}}
      :exclude []
      :layouts [["elm-*" "narkisr/elm"] [".*" "narkisr"]]
