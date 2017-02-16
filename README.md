@@ -1,6 +1,6 @@
 # Intro
 
-Backup your Github repos (pushing your code isn't a backup [Gitlab](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
+Backup your Github repos (pushing code online isn't a backup [Gitlab](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
 
 # Usage
 
