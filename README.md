@@ -74,7 +74,8 @@ Perquisites:
 * Ubuntu (Should work on any posix system but not tested)
 
 ```bash 
-$ wget 
+$ wget https://github.com/narkisr/octo/releases/download/0.2.1/octo
+$ sudo mv octo /usr/local/bin
 ```
 
 # Copyright and license
