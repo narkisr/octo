@@ -1,4 +1,4 @@
-(defproject octo "0.2.0"
+(defproject octo "0.2.1"
   :description "Github backup tool"
   :url "https://github.com/narkisr/octo-rewind"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
@@ -12,6 +12,15 @@
      [lein-ancient "0.6.7" :exclusions [org.clojure/clojure]]
      [lein-tag "0.1.0"] [lein-set-version "0.3.0"]]
 
+  :profiles {
+    :dev {
+      :set-version {
+         :updates [
+            {:path "src/octo/core.clj" :search-regex #"\"\d+\.\d+\.\d+\""}
+            {:path "bin/binary.sh" :search-regex #"\d+\.\d+\.\d+"}
+          ]}
+      }
+  }
   :aot [octo.core]
   :main octo.core
   )

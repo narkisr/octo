@@ -10,9 +10,18 @@
 
 (timbre/refer-timbre)
 
-(defn -main [c & args]
+(def version "0.2.1")
+
+(defn run [c]
   (let [{:keys [repos workspace user token]} (config/load-config c) auth (str user ":" token)]
      (doseq [{:keys [user org] :as repo} repos] 
-        (info "Cloning repos from:" (or user org))
+        (info "backup the repos of:" (or user org))
         (backup workspace auth repo))))
+
+(defn -main [action & args]
+  (case action 
+    "backup" (run (first args))
+    "version" (println "octo backup" version)
+    ) 
+  )
 

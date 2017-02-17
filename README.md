@@ -14,21 +14,23 @@ octo.edn describes the users/orgs to backup and options for each:
 ```clojure
 {
  :workspace "/home/ronen/workspace"
+ :user "GITHUB USER"
+ :token "PERSONAL ACCESS TOKEN"
  :repos [
     {:user "narkisr"
      :options {:fpm-barbecue {:branch "master"}} ; only backup a single branch
      :exclude []
      :layouts [[".*" "narkisr"]]
     }
-    {:user "opskeleton"
+    {:org "opskeleton"
      :exclude []
      :layouts [[".*" "opskeleton"]]
     }
-    {:user "celestial-ops"
+    {:org "celestial-ops"
      :exclude []
      :layouts [[".*" "celestial"]]
     }
-    {:user "pulling-strings"
+    {:org "pulling-strings"
      :exclude []
      :layouts [[".*" "strings"]]
     }
@@ -38,13 +40,15 @@ octo.edn describes the users/orgs to backup and options for each:
 
 Where:
 
-* workspace: backup destination folder
+* workspace: backup destination folder.
+* user: github user.
+* token: a personal access token.
 * repos:  a collection of users/orgs we want to backup:
   * options: specific repo options (like selecting a single branch to back up).
   * exclude: which repos not to back up.
   * layouts: mapping of the folder structure of backups.
 
-## Backup lifecycle
+## Backup Lifecycle
 
 Each repo:
 
@@ -52,9 +56,17 @@ Each repo:
 2. Exported to a single file using 'git bundle create'.
 3. Incremented using 'git remote update --prune' if it already clone.
 
-## TBD
+# Install 
 
-* Support private repositories.
+Perquisites:
+
+* JRE 1.8
+* Git binary
+* Ubuntu (Should work on any possix system but not tested)
+
+```bash 
+$ wget ~/bin/
+```
 
 # Copyright and license
 
