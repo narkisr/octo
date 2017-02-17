@@ -4,12 +4,21 @@ Backup your Github repos (pushing code online isn't a backup [Gitlab](https://ab
 
 # Usage
 
+* First make sure to have an octo.edn file (see [configuration](#Confguration).
+* For private repos make sure to have an ssh key access from the current user account.
+
 ```bash
- $ octo octo.edn
+ $ octo backup octo.edn
+ ...
+ # Once done the git bundles are under (per user/org)
+ $ ls ~/workspace/narkisr/bundles
+ aptly-docker.bundle
+ basebox-packer.bundle
 ```
 
 ## Configuration
-octo.edn describes the users/orgs to backup and options for each:
+
+The format of octo.edn is:
 
 ```clojure
 {
@@ -38,7 +47,7 @@ octo.edn describes the users/orgs to backup and options for each:
 }
 ```
 
-Where:
+Glossary:
 
 * workspace: backup destination folder.
 * user: github user.
@@ -48,12 +57,12 @@ Where:
   * exclude: which repos not to back up.
   * layouts: mapping of the folder structure of backups.
 
-## Backup Lifecycle
+## Backup lifecycle
 
 Each repo:
 
 1. Cloned into a bare repo using 'git clone --mirror'.
-2. Exported to a single file using 'git bundle create'.
+2. Exported to a single file using 'git bundle create'. 
 3. Incremented using 'git remote update --prune' if it already clone.
 
 # Install 
@@ -62,10 +71,10 @@ Perquisites:
 
 * JRE 1.8
 * Git binary
-* Ubuntu (Should work on any possix system but not tested)
+* Ubuntu (Should work on any posix system but not tested)
 
 ```bash 
-$ wget ~/bin/
+$ wget 
 ```
 
 # Copyright and license
