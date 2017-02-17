@@ -18,10 +18,11 @@
         (info "backup the repos of:" (or user org))
         (backup workspace auth repo))))
 
-(defn -main [action & args]
-  (case action 
-    "backup" (run (first args))
+(defn -main [& args]
+  (case (first args) 
+    "backup" (run (second args))
     "version" (println "octo backup" version)
+    nil (println "octo backup" version)
     ) 
   )
 
