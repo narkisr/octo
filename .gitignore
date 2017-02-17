@@ -14,3 +14,4 @@ pom.xml.asc
 public/elm/elm-stuff
 public/elm/node_modules
 public/elm/bower_components
+octo-auth.edn
