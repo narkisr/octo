@@ -23,21 +23,22 @@
 
 (def fetchers {:org org-repos :user user-repos})
 
-(defn run-paging [callback fetch]
- (loop [page 1 resp (fetch page)]
-   (when (not-empty resp)
-      (check resp)
-      (callback resp)
-      (recur (inc page) (fetch (inc page))))))
+(defn run-paging [fetch]
+ (loop [res [] page 1 resp (fetch page)]
+   (if (empty? resp)
+      res
+      (do 
+        (check resp)
+        (recur (into res resp) (inc page) (fetch (inc page)))))))
 
 (defmulti paginate
-  (fn [m auth f] (first (clojure.set/intersection (into #{} (keys m)) #{:user :org}))))
+  (fn [m auth] (first (clojure.set/intersection (into #{} (keys m)) #{:user :org}))))
 
-(defmethod paginate :user [{:keys [user]} auth f]
-  (run-paging f (partial user-repos user auth)))
+(defmethod paginate :user [{:keys [user]} auth]
+  (doall (run-paging (partial user-repos user auth))))
 
-(defmethod paginate :org [{:keys [org]} auth f]
-  (run-paging f (partial org-repos org auth)))
+(defmethod paginate :org [{:keys [org]} auth]
+  (run-paging (partial org-repos org auth)))
 
 (defn match-layout
    [path name layouts]
@@ -47,14 +48,20 @@
 
 (defn backup
   [workspace auth {:keys [layouts options] :as m}]
-  (paginate m auth
-    (fn [bulk]
-      (doseq [{:keys [name ssh_url git_url private]} bulk 
+  (doseq [{:keys [name ssh_url git_url private]} (paginate m auth)
         :let [dest (match-layout workspace name layouts)
-              op (options (keyword name))
+              op ((or options {}) (keyword name))
               parent (.getParent (file dest))]]
          (info "backup" name)
          (git/upclone (if private ssh_url git_url) dest op)          
          (info "mirrored" name )
          (git/bundle parent dest name) 
-         (info "bundled" name)))))
+         (info "bundled" name)))
+
+
+(defn stats [m auth]
+  (let [repos (paginate m auth)]
+    {:forks  (map :name (filter :fork repos)) 
+     :unchanged  (map (juxt :name :pushed_at) (take 20 (sort-by :pushed_at repos)))
+    }))
+
