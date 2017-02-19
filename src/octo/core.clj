@@ -1,10 +1,10 @@
-(ns octo.core 
+(ns octo.core
   (:gen-class)
-  (:require 
+  (:require
     [taoensso.timbre :as timbre]
     [octo.config :as config]
-    [octo.repos :refer (backup stats)])
-  (:use 
+    [octo.repos :refer (backup stale)])
+  (:use
     [me.raynes.fs :only  [mkdir exists? expand-home]]
     [clojure.java.shell :only [sh]]))
 
@@ -12,29 +12,25 @@
 
 (def version "0.2.1")
 
-(defn run [c]
-  (let [{:keys [repos workspace user token]} (config/load-config c) auth (str user ":" token)]
-     (doseq [{:keys [user org] :as repo} repos] 
-        (info "processing the repos of:" (or user org))
-        (backup workspace auth repo))))
+(defn per-repo [[f {:keys [repos]}]]
+  (doseq [{:keys [user org] :as repo} repos]
+    (info "processing:" (or user org))
+    (f repo)))
 
-(defn per-repo [f {:keys [repos]}]
-  (doseq [{:keys [user org] :as repo} repos] 
-        (info "running through the repos of:" (or user org))
-        (f repo)))
+(defn workspace [[f {:keys [workspace] :as m}]]
+  [(partial f workspace) m])
 
-(defn with-workspace [f {:keys [workspace]}] 
-  (partial f workspace))
+(defn auth [[f {:keys [user token] :as m}]]
+  [(partial f (str user ":" token)) m])
 
-(defn with-auth [f {:keys [user token]}]
-  (partial f (str user ":" auth)))
+(defn c [args]
+  (config/load-config (second args)))
 
 (defn -main [& args]
-  (case (first args) 
-    "backup" (-> (second args) )
-    "stats" (stats (second args))
+  (case (first args)
+    "backup" (-> [backup (c args)] workspace auth per-repo)
+    "stale" (-> [stale (c args)] auth per-repo)
     "version" (println "octo backup" version)
     nil (println "octo backup" version)
-    ) 
-  )
+    ))
 

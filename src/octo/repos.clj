@@ -1,5 +1,6 @@
 (ns octo.repos
   (:require
+    [clojure.pprint :refer (print-table)]
     [clojure.java.io :refer (file)]
     [octo.git :as git]
     [clojure.tools.trace :as t]
@@ -59,9 +60,11 @@
          (info "bundled" name)))
 
 
-(defn stats [m auth]
+(defn stale
+  [auth m]
   (let [repos (paginate m auth)]
-    {:forks  (map :name (filter :fork repos)) 
-     :unchanged  (map (juxt :name :pushed_at) (take 20 (sort-by :pushed_at repos)))
-    }))
+    (info "Forks:")
+    (print-table [:name :pushed_at] (filter :fork repos))
+    (info "Least updated:")
+    (print-table [:name :pushed_at] (take 20 (sort-by :pushed_at repos)))))
 
