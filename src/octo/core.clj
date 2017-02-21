@@ -10,7 +10,7 @@
 
 (timbre/refer-timbre)
 
-(def version "0.2.1")
+(def version "0.3.0")
 
 (defn per-repo [[f {:keys [repos]}]]
   (doseq [{:keys [user org] :as repo} repos]
