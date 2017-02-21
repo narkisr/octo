@@ -27,10 +27,14 @@
   (config/load-config (second args)))
 
 (defn -main [& args]
-  (case (first args)
-    "backup" (-> [backup (c args)] workspace auth per-repo)
-    "stale" (-> [stale (c args)] auth per-repo)
-    "version" (println "octo backup" version)
-    nil (println "octo backup" version)
+  (try 
+    (case (first args)
+      "backup" (-> [backup (c args)] workspace auth per-repo)
+      "stale" (-> [stale (c args)] auth per-repo)
+      "version" (println "octo backup" version)
+      nil (println "octo backup" version))
+    (catch Exception e
+     (error e) 
+     (System/exit 1)) 
     ))
 
