@@ -63,7 +63,7 @@ Each repo:
 
 1. Cloned into a bare repo using 'git clone --mirror'.
 2. Exported to a single file using 'git bundle create'. 
-3. Incremented using 'git remote update --prune' if it already clone.
+3. Incremented using 'git remote update --prune' if its already cloned.
 
 # Install 
 
