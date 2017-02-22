@@ -4,7 +4,7 @@ Backup your Github repos (because pushing code online isn't good [enough](https:
 
 # Usage
 
-* First make sure to have an octo.edn file (see [configuration](#Confguration).
+* First make sure to have an octo.edn file (see [configuration](#Confguration)).
 * For private repos make sure to have an ssh key access from the current user account.
 
 ```bash
@@ -63,7 +63,7 @@ Each repo:
 
 1. Cloned into a bare repo using 'git clone --mirror'.
 2. Exported to a single file using 'git bundle create'. 
-3. Incremented using 'git remote update --prune' if its already cloned.
+3. Incremented using 'git remote update --prune'.
 
 # Install 
 
