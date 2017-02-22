@@ -29,7 +29,7 @@ The format of octo.edn is:
     {:user "narkisr"
      :options {:fpm-barbecue {:branch "master"}} ; only backup a single branch
      :exclude []
-     :layouts [[".*" "narkisr"]]
+     :layouts [["elm-*" "narkisr/elm"] [".*" "narkisr"]]
     }
     {:org "opskeleton"
      :exclude []
@@ -52,10 +52,12 @@ Glossary:
 * workspace: backup destination folder.
 * user: github user.
 * token: a personal access token.
-* repos:  a collection of users/orgs we want to backup:
-  * options: specific repo options (like selecting a single branch to back up).
+* repos a collection of users/orgs we want to backup:
+  * user/org: the user/org name that is backed up.
+  * options: specific repo options (currently only selecting a single branch to back up).
   * exclude: which repos not to back up.
-  * layouts: mapping of the folder structure of backups.
+  * layouts: mapping from folder name regex match into destination folder, 
+    for example match all the repos with name elm-* prefix into narkisr/elm folder.
 
 ## Backup lifecycle
 
