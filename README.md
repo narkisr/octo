@@ -70,8 +70,8 @@ Each repo:
 Perquisites:
 
 * JRE 1.8
-* Git binary
-* Ubuntu (Should work on any posix system but not tested)
+* Git binary.
+* Ubuntu (Should work on any Linux system but not tested).
 
 ```bash 
 $ wget https://github.com/narkisr/octo/releases/download/0.3.0/octo
