@@ -1,6 +1,6 @@
 # Intro
 
-Backup your Github repos (cause pushing code online isn't good [enough](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
+Backup your Github repos (because pushing code online isn't good [enough](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
 
 # Usage
 
