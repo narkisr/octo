@@ -19,6 +19,7 @@
          :updates [
             {:path "src/octo/core.clj" :search-regex #"\"\d+\.\d+\.\d+\""}
             {:path "bin/binary.sh" :search-regex #"\d+\.\d+\.\d+"}
+            {:path "README.md" :search-regex #"\d+\.\d+\.\d+"}
           ]}
       }
   }
