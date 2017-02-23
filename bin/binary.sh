@@ -1,2 +1,2 @@
-cat bin/stub.sh target/octo-0.3.1-standalone.jar > target/octo && chmod +x target/octo
+cat bin/stub.sh target/octo-0.3.2-standalone.jar > target/octo && chmod +x target/octo
 
