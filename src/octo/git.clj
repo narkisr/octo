@@ -1,5 +1,5 @@
 (ns octo.git
-  (:require 
+  (:require
     [clojure.java.io :refer (file)]
     [taoensso.timbre :as timbre]
     [clojure.java.shell :refer [sh with-sh-dir]]))
@@ -12,23 +12,39 @@
      (error err exit)
      (throw (ex-info err {:code exit}))))
 
-(defn with-opts [f op & args]
-    (if (and op (contains? op :branch))
-      (apply sh  (concat args ["-b" (op :branch) "--single-branch"] ))
+(defmulti with-opts
+  (fn [op & args]
+    (keyword (first (clojure.set/intersection (into #{} args) #{"clone" "fetch"})))))
+
+(defmethod with-opts :clone  [op & args]
+  (if (and op (contains? op :branch))
+      (apply sh (concat args ["-b" (op :branch) "--single-branch"] ))
       (apply sh args)))
 
-(defn upclone 
+(defmethod with-opts :fetch [op & args]
+   (if (and op (contains? op :branch))
+      (apply sh (concat args [(op :branch)]))
+      (apply sh args)))
+
+(defn upclone
   "update or clone repo"
   [url dest op]
   (if-not (.exists (file dest))
-    (safe (with-opts sh op "git" "clone" "--mirror" url dest))
-    (with-sh-dir dest 
-      (safe (sh "git" "remote" "update" "--prune")))))
+    (safe (with-opts op "git" "clone" "--mirror" url dest))
+    (with-sh-dir dest
+      (safe (with-opts op "git" "fetch" "origin")))))
 
-(defn bundle 
-   "Create a bundle file from the repo" 
+(defn is-empty? 
+  "checks if a repo is empty"
+  [dest] 
+  (nil? (first (filter #(.isFile %) (file-seq (file (str dest "/objects")))))))
+
+(defn bundle
+   "Create a bundle file from the repo"
    [parent dest name]
    (when-not (.exists (file (str parent "/bundles")))
      (.mkdirs (file (str parent "/bundles"))))
-   (with-sh-dir dest
-     (safe (sh "git" "--git-dir" dest  "bundle" "create" (str parent "/bundles/" name ".bundle") "--all"))))
+   (if (is-empty? dest)
+     (warn "repository under" dest "is empty!, skipping bundle")
+     (with-sh-dir dest
+       (safe (sh "git" "--git-dir" dest  "bundle" "create" (str parent "/bundles/" name ".bundle") "--all")))))
