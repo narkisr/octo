@@ -1,5 +1,6 @@
 (ns octo.repos
   (:require
+    [clojure.core.strint :refer  (<<)]
     [clojure.pprint :refer (print-table)]
     [clojure.java.io :refer (file)]
     [octo.git :as git]
@@ -50,13 +51,13 @@
 (defn backup
   [workspace auth {:keys [layouts options] :as m}]
   (doseq [{:keys [name ssh_url git_url private]} (paginate m auth)
-        :let [dest (match-layout workspace name layouts)
+        :let [dest (match-layout (<< "~{workspace}/repos/" ) name layouts)
               op ((or options {}) (keyword name))
               parent (.getParent (file dest))]]
          (info "backup" name)
-         (git/upclone (if private ssh_url git_url) dest op)          
+         (git/upclone (if private ssh_url git_url) dest op)
          (info "mirrored" name )
-         (git/bundle parent dest name) 
+         (git/bundle parent dest name)
          (info "bundled" name)))
 
 

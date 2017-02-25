@@ -6,6 +6,7 @@
                  [clj-yaml "0.4.0"]
                  [tentacles "0.5.2"]
                  [clojure-future-spec "1.9.0-alpha14"]
+                 [org.clojure/core.incubator "0.1.3"]
                  [me.raynes/fs "1.4.6"]
                  [org.clojure/tools.trace "0.7.8"]
                  [com.taoensso/timbre "4.1.4"]]

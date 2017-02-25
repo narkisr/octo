@@ -1,0 +1,29 @@
+{
+ :workspace ""
+ :token ""
+ :user ""
+ :repos [
+    {:user ""
+     :options {}
+     :exclude []
+     :layouts []
+    }
+    {:org ""
+     :exclude []
+     :layouts []
+    }
+  ]
+
+ :push {
+
+  :zbackup {
+    :password-file ""
+   }
+
+  :rclone {
+   :dest ""
+   :path ""
+  }
+ }
+
+}
