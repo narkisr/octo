@@ -11,9 +11,15 @@ Backup your Github repos (because pushing code online isn't good [enough](https:
  $ octo backup octo.edn
  ...
  # Once done the git bundles are under (per user/org)
- $ ls ~/workspace/narkisr/bundles
+ $ ls ~/workspace/repos/narkisr/bundles
  aptly-docker.bundle
  basebox-packer.bundle
+ 
+ # push to a remote backup like s3 using zbackup and rclone
+ $ octo push octo.edn
+
+ # restore backup from remote backup
+ $ octo pull octo.edn
 ```
 
 ## Configuration
@@ -35,15 +41,19 @@ The format of octo.edn is:
      :exclude []
      :layouts [[".*" "opskeleton"]]
     }
-    {:org "celestial-ops"
-     :exclude []
-     :layouts [[".*" "celestial"]]
-    }
-    {:org "pulling-strings"
-     :exclude []
-     :layouts [[".*" "strings"]]
-    }
+    
   ]
+
+ :push {
+   :zbackup {
+     :password-file ""
+    }
+
+   :rclone {
+    :dest ""
+   }
+ }
+
 }
 ```
 
@@ -58,6 +68,9 @@ Glossary:
   * exclude: which repos not to back up.
   * layouts: mapping from folder name regex match into destination folder, 
     for example match all the repos with name elm-* prefix into narkisr/elm folder.
+* push:
+  * zbackup.password-file: password for zbackup (if using push/pull)
+  * rclone.dest: A remote backup address
 
 ## Backup lifecycle
 
@@ -73,6 +86,7 @@ Perquisites:
 
 * JRE 1.8
 * Git binary.
+* [rclone](rclone.org) and [zbackup](zbackup.org) (if using push/pull).
 * Ubuntu (Should work on any Linux system but not tested).
 
 ```bash 
