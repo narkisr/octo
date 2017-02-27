@@ -1,9 +1,9 @@
 (ns octo.core
   (:gen-class)
   (:require
-    [taoensso.timbre :as timbre]
+    [taoensso.timbre :as timbre :refer (set-level!)]
     [octo.config :as config]
-    [octo.repos :refer (backup stale)]
+    [octo.repos :refer (synch stale)]
     [octo.push :refer (push)]
     [octo.pull :refer (pull)])
   (:use
@@ -11,6 +11,8 @@
     [clojure.java.shell :only [sh]]))
 
 (timbre/refer-timbre)
+
+(set-level! :debug)
 
 (def version "0.4.0")
 
@@ -34,7 +36,7 @@
 (defn -main [& args]
   (try
     (case (first args)
-      "backup" (-> [backup (c args)] workspace auth per-repo)
+      "sync" (-> [synch (c args)] workspace auth per-repo)
       "push" (-> [push (c args)] workspace push- per-repo)
       "pull" (-> [pull (c args)] workspace push- per-repo)
       "stale" (-> [stale (c args)] auth per-repo)

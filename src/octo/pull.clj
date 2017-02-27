@@ -30,7 +30,9 @@
      (doseq [bundle (filter #(.isFile %) (file-seq extracted)) :let
              [name (-> bundle (.getName) (.replace ".bundle" ""))]]
        (info "git" "clone" (.getAbsolutePath bundle) (parent workspace repo name))
-       (safe (sh "git" "clone" (.getAbsolutePath bundle) (parent workspace repo name))))))
+       (safe (sh "git" "clone" (.getAbsolutePath bundle) (parent workspace repo name))))
+     (safe (sh "rm" "-rf" extracted))
+     ))
 
 (defn zbackup-restore
    "Restore an org/repo"
@@ -44,8 +46,7 @@
      (safe (sh "/bin/sh" "-c" (<< "zbackup --password-file ~{password} restore ~{latest} > ~{target}")))
      (with-sh-dir (parent workspace)
        (safe (sh "tar" "xf" target)))
-     (restore-bundles workspace repo)
-     ))
+     (restore-bundles workspace repo)))
 
 (defn pull
   [workspace {:keys [zbackup rclone] :as m} {:keys [org user]}]
