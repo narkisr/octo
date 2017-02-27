@@ -36,7 +36,7 @@
    "Copy git backup into a zbackup based backup"
    [workspace password repo]
    (let [base' (base workspace repo)]
-     (when-not (.exists (file (<< "~{base'}-initial")))
+     (when-not (.exists (file (<< "~(parent workspace repo)/backups/")))
        (init workspace password repo)
      (run-backup (<< "~{workspace}/repos/~{repo}/bundles") (<< "~{base'}-~(now)")  password))))
 
