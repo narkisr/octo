@@ -14,7 +14,7 @@
 
 (set-level! :debug)
 
-(def version "0.4.0")
+(def version "0.5.0")
 
 (defn- per-repo [[f {:keys [repos]}]]
   (doseq [{:keys [user org] :as repo} repos]
