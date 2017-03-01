@@ -1,5 +1,6 @@
 (ns octo.repos
   (:require
+    [octo.common :refer (folder-count)]
     [clojure.core.strint :refer  (<<)]
     [clojure.pprint :refer (print-table)]
     [clojure.java.io :refer (file)]
@@ -28,11 +29,11 @@
  (loop [res [] page 1 resp (fetch page)]
    (if (empty? resp)
        res
-      (do 
+      (do
         (check resp)
         (recur (into res resp) (inc page) (fetch (inc page)))))))
 
-(defn identifier [m] 
+(defn identifier [m]
   (first (clojure.set/intersection (into #{} (keys m)) #{:user :org})))
 
 (defmulti paginate
@@ -52,8 +53,8 @@
 
 (defn synch
   [workspace auth {:keys [layouts options] :as m}]
-  (let [pages (paginate m auth) id ((identifier m) m)]
-    (doseq [{:keys [name ssh_url git_url private]} pages
+  (let [id ((identifier m) m) bundles (<< "~{workspace}/repos/~{id}/bundles") ]
+     (doseq [{:keys [name ssh_url git_url private]} (paginate m auth)
         :let [dest (<< "~{workspace}/repos/~{id}/~{name}")
               op ((or options {}) (keyword name))
               parent (.getParent (file dest))]]
@@ -62,9 +63,9 @@
          (info "mirrored" name )
          (git/bundle parent dest name)
          (info "bundled" name))
-     (spit (<< "~{workspace}/repos/~{id}/bundles/check.edn") (pr-str {:count (count pages)}))
-     (debug "total of" (count pages) "synched") 
-    ))
+     (let [total (folder-count bundles)]
+       (spit (<< "~{bundles}/check.edn") (pr-str {:total total}))
+       (debug "bundled total of" total))))
 
 
 (defn stale

@@ -22,11 +22,11 @@
 
 (defn- run-backup
   [source dest password]
-  (safe (sh "/bin/sh" "-c" (<< "tar c ~{source} | zbackup backup --password-file ~{password} ~{dest}"))))
+  (safe "/bin/sh" "-c" (<< "tar c ~{source} | zbackup backup --password-file ~{password} ~{dest}")))
 
 (defn- init
   [workspace password repo]
-  (safe (sh "zbackup" "init" (parent workspace repo)  "--password-file" password)))
+  (safe "zbackup" "init" (parent workspace repo)  "--password-file" password))
 
 (def format- "MM-dd-yyyy-HH-MM-ss")
 

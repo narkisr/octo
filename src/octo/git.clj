@@ -13,21 +13,21 @@
 
 (defmethod with-opts :clone  [op & args]
   (if (and op (contains? op :branch))
-      (apply sh (concat args ["-b" (op :branch) "--single-branch"] ))
-      (apply sh args)))
+      (concat args ["-b" (op :branch) "--single-branch"] )
+      args))
 
 (defmethod with-opts :fetch [op & args]
    (if (and op (contains? op :branch))
-      (apply sh (concat args [(op :branch)]))
-      (apply sh args)))
+      (concat args [(op :branch)]) 
+      args))
 
 (defn upclone
   "update or clone repo"
   [url dest op]
   (if-not (.exists (file dest))
-    (safe (with-opts op "git" "clone" "--mirror" url dest))
+    (apply safe (with-opts op "git" "clone" "--mirror" url dest))
     (with-sh-dir dest
-      (safe (with-opts op "git" "fetch" "origin")))))
+      (apply safe (with-opts op "git" "fetch" "origin")))))
 
 (defn is-empty?
   "checks if a repo is empty"
@@ -36,10 +36,10 @@
 
 (defn bundle
    "Create a bundle file from the repo"
-   [parent dest name]
+   [parent source name]
    (when-not (.exists (file parent "bundles"))
      (.mkdirs (file parent "bundles")))
-   (if (is-empty? dest)
-     (warn "repository under" dest "is empty!, skipping bundle")
-     (with-sh-dir dest
-       (safe (sh "git" "--git-dir" dest  "bundle" "create" (str parent "/bundles/" name ".bundle") "--all")))))
+   (if (is-empty? source)
+     (warn "repository under" source "is empty!, skipping bundle")
+     (with-sh-dir source
+       (safe "git" "--git-dir" source  "bundle" "create" (str parent "/bundles/" name ".bundle") "--all"))))

@@ -7,11 +7,13 @@
 
 (timbre/refer-timbre)
 
-(defn safe [{:keys [out err exit]}]
+(defn safe-output [{:keys [out err exit]}]
    (when-not (empty? out) (debug out))
    (when-not (= exit 0)
      (error err exit)
      (throw (ex-info err {:code exit}))))
+
+(def safe (comp safe-output sh))
 
 (defn lazy-mkdir [dir]
    (when-not (.exists (file dir) )
@@ -20,4 +22,8 @@
 (defn rclone-sync
    "Push/Pull changes to a remote/local backup"
    [source dest]
-   (safe (sh "rclone" "sync" source dest)))
+   (safe "rclone" "sync" source dest))
+
+(defn folder-count [d]
+  (alength (.listFiles (file d))))
+
