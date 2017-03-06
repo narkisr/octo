@@ -51,10 +51,13 @@
      (str path "/" dest "/" name)
      (str path "/" name)))
 
+(defn excluded? [es {:keys [name]}]
+  (empty? (first (filter (fn [e] (= e name)) es))))
+
 (defn synch
-  [workspace auth {:keys [layouts options] :as m}]
+  [workspace auth {:keys [layouts options exclude] :as m}]
   (let [id ((identifier m) m) bundles (<< "~{workspace}/repos/~{id}/bundles") ]
-     (doseq [{:keys [name ssh_url git_url private]} (paginate m auth)
+     (doseq [{:keys [name ssh_url git_url private]} (filter (partial excluded? exclude) (paginate m auth))
         :let [dest (<< "~{workspace}/repos/~{id}/~{name}")
               op ((or options {}) (keyword name))
               parent (.getParent (file dest))]]
