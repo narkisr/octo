@@ -24,6 +24,5 @@
    [source dest]
    (safe "rclone" "sync" source dest))
 
-(defn folder-count [d]
-  (alength (.listFiles (file d))))
-
+(defn folder-count [d & exclude]
+  (count (remove (fn [f] ((into #{} exclude) (.getName f))) (.listFiles (file d)))))

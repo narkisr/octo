@@ -37,8 +37,8 @@
    [workspace password repo]
    (let [base' (base workspace repo)]
      (when-not (.exists (file (<< "~(parent workspace repo)/backups/")))
-       (init workspace password repo)
-     (run-backup (<< "~{workspace}/repos/~{repo}/bundles") (<< "~{base'}-~(now)")  password))))
+       (init workspace password repo))
+     (run-backup (<< "~{workspace}/repos/~{repo}/bundles") (<< "~{base'}-~(now)")  password)))
 
 (defn push
   [workspace {:keys [zbackup rclone] :as m} {:keys [org user]}]

@@ -66,7 +66,7 @@
          (info "mirrored" name )
          (git/bundle parent dest name)
          (info "bundled" name))
-     (let [total (folder-count bundles)]
+     (let [total (folder-count bundles "check.edn")]
        (spit (<< "~{bundles}/check.edn") (pr-str {:total total}))
        (debug "bundled total of" total))))
 
