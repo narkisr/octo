@@ -4,7 +4,7 @@
     [octo.push :refer [format-]]
     [taoensso.timbre :as timbre]
     [clojure.core.strint :refer  (<<)]
-    [octo.common :refer (safe lazy-mkdir rclone-sync folder-count)]
+    [octo.common :refer (safe lazy-mkdir rclone-sync files)]
     [clojure.edn :refer (read-string)]
     [me.raynes.fs :as fs]
     [clojure.java.io :refer (file)]
@@ -26,7 +26,7 @@
 
 (defn validate [extracted workspace repo]
    (let [{:keys [total]} (read-string (slurp (<< "~{extracted}/check.edn")))
-          restored (folder-count (<< "~(parent workspace)/repos/~{repo}/"))]
+          restored (count (files (<< "~(parent workspace)/repos/~{repo}/")))]
        (debug "validating restoration for" repo)
        (when-not (== total restored)
          (throw (ex-info "Failed to restore found" {:found restored :expected total})))))

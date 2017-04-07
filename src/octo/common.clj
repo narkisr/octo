@@ -1,7 +1,9 @@
 (ns octo.common
   "Common reusable functions"
   (:require 
+    [clojure.set :refer (difference)]
     [clojure.java.shell :refer [sh]]
+    [me.raynes.fs :refer [delete-dir]]
     [clojure.java.io :refer (file)]
     [taoensso.timbre :as timbre]))
 
@@ -24,5 +26,12 @@
    [source dest]
    (safe "rclone" "sync" source dest))
 
-(defn folder-count [d & exclude]
-  (count (remove (fn [f] ((into #{} exclude) (.getName f))) (.listFiles (file d)))))
+(defn files [d & exclude]
+  (remove (fn [f] ((into #{} exclude) (.getName f))) (.listFiles (file d))))
+
+(defn purge 
+  "delete files that exist in dest but not in source names set"
+  [sources dest]
+  (doseq [f (filter #(not (sources (.getName %))) dest)] 
+    (debug "clearing non existing remote" f) 
+    (delete-dir f)))
