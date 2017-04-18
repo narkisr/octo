@@ -4,17 +4,16 @@ Backup your Github repos (because pushing code online isn't good [enough](https:
 
 # Usage
 
-* First make sure to have an octo.edn file (see [configuration](#Confguration)).
-* For private repos make sure to have an ssh key access from the current user account.
+Make sure to have an octo.edn file (see [configuration](#Confguration)) and an ssh access key from the current user account.
 
 ```bash
- $ octo backup octo.edn
+ $ octo sync octo.edn
  ...
  # Once done the git bundles are under (per user/org)
  $ ls ~/workspace/repos/narkisr/bundles
  aptly-docker.bundle
  basebox-packer.bundle
- 
+
  # push to a remote backup like s3 using zbackup and rclone
  $ octo push octo.edn
 
@@ -41,7 +40,6 @@ The format of octo.edn is:
      :exclude []
      :layouts [[".*" "opskeleton"]]
     }
-    
   ]
 
  :push {
@@ -66,7 +64,7 @@ Glossary:
   * user/org: the user/org name that is backed up.
   * options: specific repo options (currently only selecting a single branch to back up).
   * exclude: which repos not to back up.
-  * layouts: mapping from folder name regex match into destination folder, 
+  * layouts: mapping from folder name regex match into destination folder,
     for example match all the repos with name elm-* prefix into narkisr/elm folder.
 * push:
   * zbackup.password-file: password for zbackup (if using push/pull)
@@ -77,10 +75,10 @@ Glossary:
 Each repo:
 
 1. Cloned into a bare repo using 'git clone --mirror'.
-2. Exported to a single file using 'git bundle create'. 
+2. Exported to a single file using 'git bundle create'.
 3. Incremented using 'git fetch remote'.
 
-# Install 
+# Install
 
 Perquisites:
 
@@ -89,7 +87,7 @@ Perquisites:
 * [rclone](rclone.org) and [zbackup](zbackup.org) (if using push/pull).
 * Ubuntu (Should work on any Linux system but not tested).
 
-```bash 
+```bash
 $ wget https://github.com/narkisr/octo/releases/download/0.6.0/octo
 $ sudo mv octo /usr/local/bin
 ```
