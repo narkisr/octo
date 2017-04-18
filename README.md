@@ -4,7 +4,7 @@ Backup your Github repos (because pushing code online isn't good [enough](https:
 
 # Usage
 
-Make sure to have an octo.edn file (see [configuration](#Confguration)) and an ssh access key from the current user account.
+Make sure to have an octo.edn file and an ssh access key from the current user account:
 
 ```bash
  $ octo sync octo.edn
