@@ -1,6 +1,7 @@
 (ns octo.core
   (:gen-class)
   (:require
+    [tentacles.repos :as repos]
     [taoensso.timbre :as timbre :refer (set-level!)]
     [octo.config :as config]
     [octo.repos :refer (synch stale)]
@@ -14,7 +15,14 @@
 
 (set-level! :debug)
 
-(def version "0.6.0")
+(defn last-version []
+  )
+
+(defn version []
+  (let [current  "0.6.0" last-version (:name (last (sort-by :name (repos/tags "narkisr" "octo"))))]
+    (if-not (= current last-version )
+      (println "octo backup" current ",latest version is" last-version "please upgrade")
+      (println "octo backup" current))))
 
 (defn- per-repo [[f {:keys [repos]}]]
   (doseq [{:keys [user org] :as repo} repos]
@@ -40,8 +48,8 @@
       "push" (-> [push (c args)] workspace push- per-repo)
       "pull" (-> [pull (c args)] workspace push- per-repo)
       "stale" (-> [stale (c args)] auth per-repo)
-      "version" (println "octo backup" version)
-      nil (println "octo backup" version))
+      "version" (version)
+      nil (version))
     (catch Exception e
       (error e)
       (System/exit 1))))

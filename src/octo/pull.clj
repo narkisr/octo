@@ -48,7 +48,7 @@
    [workspace password repo]
    (let [base (<< "~(parent workspace repo)/backups/")
          backups (filter #(.isFile %) (file-seq (file base)))
-         latest (.getAbsolutePath (first (sort-by #(-> % (.getName) (.replace repo "") parse) backups)))
+         latest (.getAbsolutePath (last (sort-by #(-> % (.getName) (.replace repo "") parse) backups)))
          target  (<< "~(parent workspace)/tars/~{repo}.tar")]
       (debug "zbackup restore")
       (lazy-mkdir (<< "~(parent workspace)/tars"))
@@ -64,6 +64,8 @@
     (let [repo (or org user)]
       (info "synching" repo)
       (rclone-sync  (<< "~(rclone :dest)/~{repo}.zback") (parent workspace repo))
+      (info "purging" (<< "~(parent workspace)/repos/~{repo}"))
+      (fs/delete-dir (<< "~(parent workspace)/repos/~{repo}"))
       (info "restoring" repo)
       (when (empty? (.list (file (parent workspace repo))))
         (throw (ex-info "zbackup archive empty fix configuration, sync and push" {:repo repo})))
