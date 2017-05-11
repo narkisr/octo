@@ -1,7 +1,7 @@
-(ns octo.pull
+(ns octo.github.pull
   "pull backup into restore folder"
   (:require
-    [octo.push :refer [format-]]
+    [octo.github.push :refer [format-]]
     [taoensso.timbre :as timbre]
     [clojure.core.strint :refer  (<<)]
     [octo.common :refer (safe lazy-mkdir rclone-sync files)]

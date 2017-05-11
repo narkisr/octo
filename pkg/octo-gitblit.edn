@@ -1,0 +1,15 @@
+{
+ :workspace "/home/ronen/workspace/gitblit"
+ :user "admin"
+ :password "vagrant"
+ :url "https://192.168.121.22:8443/"
+ :push {
+   :zbackup {
+     :password-file "/home/ronen/.github.pass"
+    }
+
+   :rclone {
+    :dest "s3:narkisr-rclone/gitblit"
+   }
+  }
+}

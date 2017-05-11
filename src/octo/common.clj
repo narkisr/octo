@@ -1,6 +1,6 @@
 (ns octo.common
   "Common reusable functions"
-  (:require 
+  (:require
     [clojure.set :refer (difference)]
     [clojure.java.shell :refer [sh]]
     [me.raynes.fs :refer [delete-dir]]
@@ -29,9 +29,14 @@
 (defn files [d & exclude]
   (remove (fn [f] ((into #{} exclude) (.getName f))) (.listFiles (file d))))
 
-(defn purge 
+(defn purge
   "delete files that exist in dest but not in source names set"
   [sources dest]
-  (doseq [f (filter #(not (sources (.getName %))) dest)] 
-    (debug "clearing non existing remote" f) 
+  (doseq [f (filter #(not (sources (.getName %))) dest)]
+    (debug "clearing non existing remote" f)
     (delete-dir f)))
+
+(defn excluded? [es {:keys [name]}]
+  (empty? (first (filter (fn [e] (= e name)) es))))
+
+

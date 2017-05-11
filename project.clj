@@ -23,8 +23,28 @@
             {:path "bin/binary.sh" :search-regex #"\d+\.\d+\.\d+"}
             {:path "README.md" :search-regex #"\d+\.\d+\.\d+"}
           ]}
+       :aot [octo.core]
       }
+
+     :refresh {
+        :repl-options {
+          :init-ns user
+          :timeout 120000
+        }
+
+        :dependencies [[org.clojure/tools.namespace "0.2.10"]
+                       [redl "0.2.4"] [org.clojure/tools.trace "0.7.9"]]
+        :injections  [(require '[redl core complete])]
+        :source-paths  ["dev" "src"]
+        :test-paths  []
+
+     }
   }
-  :aot [octo.core]
+
+
+  :aliases {
+     "reloadable" ["with-profile" "refresh" "do" "clean," "repl"]
+  }
+
   :main octo.core
   )

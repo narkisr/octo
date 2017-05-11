@@ -1,7 +1,6 @@
-(ns octo.push
+(ns octo.github.push
   "push local backup remotely by using zbackup and rclone"
   (:require
-    [taoensso.timbre :as timbre]
     [clojure.core.strint :refer  (<<)]
     [octo.common :refer (safe lazy-mkdir rclone-sync)]
     [clojure.java.io :refer (file)]
@@ -9,7 +8,6 @@
     [clojure.java.shell :refer [sh with-sh-dir]]))
 
 (timbre/refer-timbre)
-
 
 (defn parent
   ([workspace]

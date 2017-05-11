@@ -1,7 +1,7 @@
-(ns octo.repos
+(ns octo.github.synch
   (:require
     [me.raynes.fs :refer (delete-dir)]
-    [octo.common :refer (files purge)]
+    [octo.common :refer (files purge excluded?)]
     [clojure.core.strint :refer  (<<)]
     [clojure.pprint :refer (print-table)]
     [clojure.java.io :refer (file)]
@@ -51,10 +51,6 @@
    (if-let [[r dest] (first (filter (fn [[r dest]] (re-find (re-pattern r) name)) layouts))]
      (str path "/" dest "/" name)
      (str path "/" name)))
-
-(defn excluded? [es {:keys [name]}]
-  (empty? (first (filter (fn [e] (= e name)) es))))
-
 
 (defn synch
   [workspace auth {:keys [layouts options exclude] :as m}]

@@ -4,9 +4,8 @@
     [tentacles.repos :as repos]
     [taoensso.timbre :as timbre :refer (set-level!)]
     [octo.config :as config]
-    [octo.repos :refer (synch stale)]
-    [octo.push :refer (push)]
-    [octo.pull :refer (pull)])
+    [octo.provider :refer (find-fn)]
+    )
   (:use
     [me.raynes.fs :only  [mkdir exists? expand-home]]
     [clojure.java.shell :only [sh]]))
@@ -15,25 +14,24 @@
 
 (set-level! :debug)
 
-(defn last-version []
-  )
-
 (defn version []
   (let [current  "0.7.0" last-version (:name (last (sort-by :name (repos/tags "narkisr" "octo"))))]
     (if-not (= current last-version )
       (println "octo backup" current ",latest version is" last-version "please upgrade")
       (println "octo backup" current))))
 
-(defn- per-repo [[f {:keys [repos]}]]
-  (doseq [{:keys [user org] :as repo} repos]
-    (info "processing:" (or user org))
-    (f repo)))
+(defn- run [[f {:keys [repos] :as m}]]
+  (if repos
+     (doseq [{:keys [user org] :as repo} repos]
+       (info "processing:" (or user org))
+       (f repo))
+     (f m)))
 
 (defn- workspace [[f {:keys [workspace] :as m}]]
   [(partial f workspace) m])
 
-(defn- auth [[f {:keys [user token] :as m}]]
-  [(partial f (str user ":" token)) m])
+(defn- auth [[f {:keys [user token password] :as m}]]
+  [(partial f (str user ":" (or token password))) m])
 
 (defn- push- [[f {:keys [push] :as m}]]
   [(partial f push) m])
@@ -41,13 +39,16 @@
 (defn c [args]
   (config/load-config (second args)))
 
+(defn match [[k m]]
+  [(find-fn k m) m])
+
 (defn -main [& args]
   (try
     (case (first args)
-      "sync" (-> [synch (c args)] workspace auth per-repo)
-      "push" (-> [push (c args)] workspace push- per-repo)
-      "pull" (-> [pull (c args)] workspace push- per-repo)
-      "stale" (-> [stale (c args)] auth per-repo)
+      "sync" (-> [:synch (c args)] match workspace auth run)
+      "push" (-> [:push (c args)] match workspace push- run)
+      "pull" (-> [:pull (c args)] match workspace push- run)
+      "stale" (-> [:stale (c args)] match auth run)
       "version" (version)
       nil (version))
     (catch Exception e
