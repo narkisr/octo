@@ -2,6 +2,7 @@
   (:require
     [me.raynes.fs :refer (delete-dir)]
     [octo.common :refer (files purge excluded?)]
+    [octo.common.synch :as cs]
     [clojure.core.strint :refer  (<<)]
     [clojure.pprint :refer (print-table)]
     [clojure.java.io :refer (file)]
@@ -53,22 +54,14 @@
      (str path "/" name)))
 
 (defn synch
-  [workspace auth {:keys [layouts options exclude] :as m}]
-  (let [id ((identifier m) m) parent (<< "~{workspace}/repos/~{id}") bundles (<< "~{parent}/bundles")]
-     (info "purging" bundles)
-     (delete-dir bundles)
-     (doseq [{:keys [name ssh_url git_url private]} (filter (partial excluded? exclude) (paginate m auth))
-        :let [dest (<< "~{parent}/~{name}") op ((or options {}) (keyword name))]]
-         (info "synching" name)
-         (git/upclone (if private ssh_url git_url) dest op)
-         (info "mirrored" name )
-         (git/bundle parent dest name)
-         (info "bundled" name))
-     (let [bs (files bundles "check.edn") total (count bs)
-           sources (into #{} (map #(.replace (.getName %) ".bundle" "") bs))]
-       (spit (<< "~{bundles}/check.edn") (pr-str {:total total}))
-       (debug "bundled total of" total)
-       (purge sources (files parent "bundles")))))
+  [workspace auth m]
+  (let [id ((identifier m) m) parent (<< "~{workspace}/github/sync/~{id}")
+        bundles (<< "~{parent}/bundles")]
+    (cs/synch workspace auth (merge m {
+      :parent parent :bundles bundles
+      :repos (paginate m auth)
+      :f (fn [{:keys [name ssh_url git_url private]}] [name (if private ssh_url git_url)])
+     }))))
 
 
 (defn stale
