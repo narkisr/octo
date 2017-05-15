@@ -55,11 +55,10 @@
 
 (defn synch
   [workspace auth m]
-  (let [id ((identifier m) m) parent (<< "~{workspace}/github/sync/~{id}")
+  (let [id ((identifier m) m) parent (<< "~{workspace}/sync/~{id}")
         bundles (<< "~{parent}/bundles")]
     (cs/synch workspace auth (merge m {
-      :parent parent :bundles bundles
-      :repos (paginate m auth)
+      :parent parent :bundles bundles :repos (paginate m auth)
       :f (fn [{:keys [name ssh_url git_url private]}] [name (if private ssh_url git_url)])
      }))))
 

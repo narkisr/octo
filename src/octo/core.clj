@@ -20,7 +20,9 @@
       (println "octo backup" current ",latest version is" last-version "please upgrade")
       (println "octo backup" current))))
 
-(defn- run [[f {:keys [repos] :as m}]]
+(defn- run
+  "Running through repos list if exists else just pass m"
+  [[f {:keys [repos] :as m}]]
   (if repos
      (doseq [{:keys [user org] :as repo} repos]
        (info "processing:" (or user org))

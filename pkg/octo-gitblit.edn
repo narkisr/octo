@@ -1,5 +1,5 @@
 {
- :workspace "/home/ronen/workspace/gitblit"
+ :workspace "/home/ronen/octo-development/gitblit"
  :user "admin"
  :password "vagrant"
  :url "https://192.168.121.22:8443/"
@@ -9,7 +9,7 @@
     }
 
    :rclone {
-    :dest "s3:narkisr-rclone/gitblit"
+    :dest "s3:octo-development/gitblit"
    }
   }
 }

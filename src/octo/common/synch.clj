@@ -14,7 +14,7 @@
      (delete-dir bundles)
      (doseq [[name url] (map f (filter (partial excluded? exclude) repos))
         :let [dest (<< "~{parent}/~{name}") op ((or options {}) (keyword name))]]
-         (info "synching" name)
+         (info "synching" name url dest op)
          (git/upclone url dest op)
          (info "mirrored" name )
          (git/bundle parent dest name)

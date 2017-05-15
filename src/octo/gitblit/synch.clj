@@ -20,10 +20,11 @@
      (:body (client/get (<< "~{url}/rpc/?req=LIST_REPOSITORIES") basic))))
 
 (defn synch
-  [workspace auth m]
+  [workspace auth {:keys [user] :as m}]
    (cs/synch workspace auth (merge m {
-      :parent (<< "~{workspace}/sync") :bundles (<< "~{workspace}/sync/bundles")
-      :repos (repos m auth) :f (fn [[url {:keys [name]}]] [(replace name ".git" "") url])
+      :parent (<< "~{workspace}/sync/~{user}") :bundles (<< "~{workspace}/sync/~{user}/bundles")
+      :repos (repos m auth) 
+      :f (fn [[url {:keys [name]}]] [(replace name ".git" "") (.substring (str url) 1)])
      })))
 
 (comment
