@@ -15,7 +15,7 @@
 (set-level! :debug)
 
 (defn version []
-  (let [current  "0.7.0" last-version (:name (last (sort-by :name (repos/tags "narkisr" "octo"))))]
+  (let [current  "0.8.0" last-version (:name (last (sort-by :name (repos/tags "narkisr" "octo"))))]
     (if-not (= current last-version )
       (println "octo backup" current ",latest version is" last-version "please upgrade")
       (println "octo backup" current))))

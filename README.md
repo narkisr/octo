@@ -88,7 +88,7 @@ Perquisites:
 * Ubuntu (Should work on any Linux system but not tested).
 
 ```bash
-$ wget https://github.com/narkisr/octo/releases/download/0.7.0/octo
+$ wget https://github.com/narkisr/octo/releases/download/0.8.0/octo
 $ sudo mv octo /usr/local/bin
 ```
 
