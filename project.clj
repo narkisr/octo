@@ -7,15 +7,15 @@
                  [irresponsible/tentacles "0.6.1"]
                  [org.clojure/core.incubator "0.1.4"]
                  [me.raynes/fs "1.4.6"]
-                 [clj-http "3.1.0"]
-                 [org.clojure/tools.trace "0.7.8"]
+                 [clj-http "3.8.0"]
+                 [org.clojure/tools.trace "0.7.9"]
                  [com.taoensso/timbre "4.1.4"]]
   :plugins [
      [jonase/eastwood "0.2.5"]
      [lein-cljfmt "0.5.6"]
      [lein-kibit "0.1.6"]
      [lein-ancient "0.6.15" :exclusions [org.clojure/clojure]]
-     [lein-tag "0.1.0"] 
+     [lein-tag "0.1.0"]
      [lein-set-version "0.3.0"]
    ]
 
