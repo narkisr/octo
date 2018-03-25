@@ -2,7 +2,7 @@
   :description "Github backup tool"
   :url "https://github.com/narkisr/octo-rewind"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [clj-yaml "0.4.0"]
                  [tentacles "0.5.2"]
                  [clojure-future-spec "1.9.0-alpha14"]
@@ -12,8 +12,13 @@
                  [org.clojure/tools.trace "0.7.8"]
                  [com.taoensso/timbre "4.1.4"]]
   :plugins [
-     [lein-ancient "0.6.7" :exclusions [org.clojure/clojure]]
-     [lein-tag "0.1.0"] [lein-set-version "0.3.0"]]
+     [jonase/eastwood "0.2.5"]
+     [lein-cljfmt "0.5.6"]
+     [lein-kibit "0.1.6"]
+     [lein-ancient "0.6.15" :exclusions [org.clojure/clojure]]
+     [lein-tag "0.1.0"] 
+     [lein-set-version "0.3.0"]
+   ]
 
   :profiles {
     :dev {
@@ -44,6 +49,9 @@
 
   :aliases {
      "reloadable" ["with-profile" "refresh" "do" "clean," "repl"]
+     "travis" [
+        "do" "clean," "compile," "cljfmt" "check," "eastwood"
+     ]
   }
 
   :main octo.core

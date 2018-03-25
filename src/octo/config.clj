@@ -1,9 +1,8 @@
 (ns octo.config
-  (:require 
-    [octo.provider :refer (match)]
-    [clojure.spec :as s]
-    [clojure.edn :as edn]))
-
+  (:require
+   [octo.provider :refer (match)]
+   [clojure.spec.alpha :as s]
+   [clojure.edn :as edn]))
 
 (s/def ::org string?)
 
@@ -27,14 +26,14 @@
 
 (def types {:octo.gitblit ::gitblit :octo.github ::github})
 
-(defn load-config 
+(defn load-config
   ([] (load-config "octo.edn"))
-  ([c] 
-    (let [config (edn/read-string (slurp c)) t (types (match config))]
-      (if (s/valid? t config)
-         config
-        (throw (ex-info "Configuration not valid" (s/explain-data ::config config)))))))
+  ([c]
+   (let [config (edn/read-string (slurp c)) t (types (match config))]
+     (if (s/valid? t config)
+       config
+       (throw (ex-info "Configuration not valid" (s/explain-data ::config config)))))))
 
 ;; (s/valid? ::config  (edn/read-string (slurp "octo-auth.edn")))
 ;; (s/explain-data ::config  (edn/read-string (slurp "octo-auth.edn")))
- 
+

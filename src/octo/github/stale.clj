@@ -1,8 +1,8 @@
 (ns octo.github.stale
   (:require
-    [clojure.pprint :refer (print-table)]
-    [taoensso.timbre :as timbre]
-    [octo.github.synch :refer (paginate)]))
+   [clojure.pprint :refer (print-table)]
+   [taoensso.timbre :as timbre]
+   [octo.github.synch :refer (paginate)]))
 
 (timbre/refer-timbre)
 

@@ -1,14 +1,13 @@
 (ns octo.core
   (:gen-class)
   (:require
-    [tentacles.repos :as repos]
-    [taoensso.timbre :as timbre :refer (set-level!)]
-    [octo.config :as config]
-    [octo.provider :refer (find-fn)]
-    )
+   [tentacles.repos :as repos]
+   [taoensso.timbre :as timbre :refer (set-level!)]
+   [octo.config :as config]
+   [octo.provider :refer (find-fn)])
   (:use
-    [me.raynes.fs :only  [mkdir exists? expand-home]]
-    [clojure.java.shell :only [sh]]))
+   [me.raynes.fs :only  [mkdir exists? expand-home]]
+   [clojure.java.shell :only [sh]]))
 
 (timbre/refer-timbre)
 
@@ -16,7 +15,7 @@
 
 (defn version []
   (let [current  "0.8.0" last-version (:name (last (sort-by :name (repos/tags "narkisr" "octo"))))]
-    (if-not (= current last-version )
+    (if-not (= current last-version)
       (println "octo backup" current ",latest version is" last-version "please upgrade")
       (println "octo backup" current))))
 
@@ -24,10 +23,10 @@
   "Running through repos list if exists else just pass m"
   [[f {:keys [repos] :as m}]]
   (if repos
-     (doseq [{:keys [user org] :as repo} repos]
-       (info "processing:" (or user org))
-       (f repo))
-     (f m)))
+    (doseq [{:keys [user org] :as repo} repos]
+      (info "processing:" (or user org))
+      (f repo))
+    (f m)))
 
 (defn- workspace [[f {:keys [workspace] :as m}]]
   [(partial f workspace) m])
