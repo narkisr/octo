@@ -2,6 +2,8 @@
 
 Backup your Github repos (because pushing code online isn't good [enough](https://about.gitlab.com/2017/02/10/postmortem-of-database-outage-of-january-31/)).
 
+[![Build Status](https://travis-ci.org/narkisr/octo.png)](https://travis-ci.org/narkisr/octo)
+
 # Usage
 
 Make sure to have an octo.edn file and an ssh access key from the current user account:
