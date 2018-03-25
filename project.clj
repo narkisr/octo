@@ -4,9 +4,8 @@
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [clj-yaml "0.4.0"]
-                 [tentacles "0.5.2"]
-                 [clojure-future-spec "1.9.0-alpha14"]
-                 [org.clojure/core.incubator "0.1.3"]
+                 [irresponsible/tentacles "0.6.1"]
+                 [org.clojure/core.incubator "0.1.4"]
                  [me.raynes/fs "1.4.6"]
                  [clj-http "3.1.0"]
                  [org.clojure/tools.trace "0.7.8"]
