@@ -10,7 +10,8 @@
 (timbre/refer-timbre)
 
 (defn safe-output [{:keys [out err exit]}]
-  (when-not (empty? out) (debug out))
+  (when-not (empty? out)
+    (debug out))
   (when-not (= exit 0)
     (error err exit)
     (throw (ex-info err {:code exit}))))

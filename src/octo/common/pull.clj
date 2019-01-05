@@ -36,9 +36,10 @@
     (info "restoring bundles from" extracted)
     (doseq [bundle (filter #(and (.isFile %) (.endsWith (.getName %) "bundle")) (file-seq extracted))
             :let [name (-> bundle (.getName) (.replace ".bundle" "")) target (parent to id name)]]
-      (when (.exists (file target)) (fs/delete-dir target))
+      (when (.exists (file target))
+        (fs/delete-dir target))
       (safe "git" "clone" (.getAbsolutePath bundle) target)
-      (with-sh-dir target (safe "git" "fsck" target)))
+      (with-sh-dir target (safe "git" "fsck")))
     (validate extracted to id)
     (fs/delete-dir extracted)))
 
