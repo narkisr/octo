@@ -43,6 +43,17 @@
 (defn match [[k m]]
   [(find-fn k m) m])
 
+(defn help []
+  (println "
+Usage:
+  octo sync  {config}  - download remote repo changes locally.
+  octo push  {config}  - push local repositries into our backup location, repos are bundled and packaged before being pushed.
+  octo pull  {config}  - pull backup from remote backup destination to our local workspace folder.
+  octo stale {config}  - print a report listing stale repositries (repositries which code was updated in a while).
+  octo help            - print this help message
+
+{config} - All the commands expect an edn configuration file as input"))
+
 (defn -main [& args]
   (try
     (case (first args)
@@ -50,8 +61,8 @@
       "push" (-> [:push (c args)] match workspace push- run)
       "pull" (-> [:pull (c args)] match workspace push- run)
       "stale" (-> [:stale (c args)] match auth run)
-      "version" (version)
-      nil (version))
+      "help" (help)
+      nil (help))
     (catch Exception e
       (error e)
       (System/exit 1))))
