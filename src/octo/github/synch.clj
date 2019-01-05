@@ -6,6 +6,7 @@
    [clojure.core.strint :refer  (<<)]
    [clojure.pprint :refer (print-table)]
    [clojure.java.io :refer (file)]
+   [clojure.set :refer (intersection)]
    [octo.git :as git]
    [clojure.tools.trace :as t]
    [tentacles.repos :as repos]
@@ -36,7 +37,8 @@
         (recur (into res resp) (inc page) (fetch (inc page)))))))
 
 (defn identifier [m]
-  (first (clojure.set/intersection (into #{} (keys m)) #{:user :org})))
+  (first
+   (intersection (into #{} (keys m)) #{:user :org})))
 
 (defmulti paginate
   (fn [m auth] (identifier m)))

@@ -3,6 +3,7 @@
    [octo.common :refer (safe)]
    [clojure.java.io :refer (file)]
    [taoensso.timbre :as timbre]
+   [clojure.set :refer (intersection)]
    [clojure.java.shell :refer [sh with-sh-dir]]))
 
 (timbre/refer-timbre)
