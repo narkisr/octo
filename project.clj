@@ -1,4 +1,4 @@
-(defproject octo "0.8.0"
+(defproject octo "0.8.1"
   :description "Github backup tool"
   :url "https://github.com/narkisr/octo-rewind"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
