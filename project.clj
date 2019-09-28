@@ -1,18 +1,32 @@
 (defproject octo "0.8.1"
   :description "Github backup tool"
-  :url "https://github.com/narkisr/octo-rewind"
+  :url "https://github.com/narkisr/octo"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [cli-matic "0.3.3"]
-                 [clj-yaml "0.4.0"]
-                 [irresponsible/tentacles "0.6.3"]
-                 [org.clojure/core.incubator "0.1.4"]
-                 [me.raynes/fs "1.4.6"]
-                 [clj-http "3.9.1"]
-                 [org.clojure/tools.trace "0.7.10"]
-                 [com.taoensso/timbre "4.1.4"]]
+  :dependencies [
+      [org.clojure/clojure "1.10.1"]
+
+      ; <<
+      [org.clojure/core.incubator "0.1.4"]
+
+      [me.raynes/fs "1.4.6"]
+
+      ; gitblit api
+      [clj-http "3.10.0"]
+
+      ; github api
+      [irresponsible/tentacles "0.6.4"]
+      [clj-yaml "0.4.0"]
+
+      ; repl
+      [org.clojure/tools.namespace "0.3.1"]
+
+      [org.clojure/tools.reader "1.3.2"]
+
+      [com.taoensso/timbre "4.10.0"]
+    ]
+
   :plugins [
-     [jonase/eastwood "0.3.3"]
+     [io.taylorwood/lein-native-image "0.3.1"]
      [lein-cljfmt "0.6.3"]
      [lein-ancient "0.6.15" :exclusions [org.clojure/clojure]]
      [lein-tag "0.1.0"]
