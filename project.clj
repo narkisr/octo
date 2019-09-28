@@ -36,37 +36,40 @@
   :profiles {
     :dev {
       :set-version {
-         :updates [
+        :updates [
             {:path "src/octo/core.clj" :search-regex #"\"\d+\.\d+\.\d+\""}
             {:path "bin/binary.sh" :search-regex #"\d+\.\d+\.\d+"}
             {:path "README.md" :search-regex #"\d+\.\d+\.\d+"}
-          ]}
-       :aot [octo.core]
+        ]
       }
 
-     :refresh {
-        :repl-options {
-          :init-ns user
-          :timeout 120000
-        }
+      :repl-options {
+        :init-ns user
+        :timeout 120000
+      }
+    }
 
-        :dependencies [[org.clojure/tools.namespace "0.2.10"]
-                       [redl "0.2.4"]
-                       [org.clojure/tools.trace "0.7.10"]]
-        :injections  [(require '[redl core complete])]
-        :source-paths  ["dev" "src"]
-        :test-paths  []
-
-     }
+    :uberjar {
+       :aot :all
+       :native-image {:jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+    }
   }
 
 
   :aliases {
-     "reloadable" ["with-profile" "refresh" "do" "clean," "repl"]
-     "travis" [
-        "do" "clean," "compile," "cljfmt" "check," "eastwood"
-     ]
+     "travis" [ "do" "clean," "compile," "cljfmt" "check" ]
   }
 
-  :main octo.core
-  )
+  :native-image {
+      :name "octo"
+      :graal-bin "/opt/graalvm-ce-19.2.0.1/bin/native-image"
+      :opts ["-H:EnableURLProtocols=http"
+             "--report-unsupported-elements-at-runtime"
+             "--enable-https"
+             "--initialize-at-build-time"
+             "--verbose"
+             "--no-fallback"]
+  }
+
+  :main ^:skip-aot octo.core
+)
