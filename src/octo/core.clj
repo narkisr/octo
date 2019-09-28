@@ -4,10 +4,7 @@
    [tentacles.repos :as repos]
    [taoensso.timbre :as timbre :refer (set-level!)]
    [octo.config :as config]
-   [octo.provider :refer (find-fn)])
-  (:use
-   [me.raynes.fs :only  [mkdir exists? expand-home]]
-   [clojure.java.shell :only [sh]]))
+   [octo.provider :refer (find-fn)]))
 
 (timbre/refer-timbre)
 

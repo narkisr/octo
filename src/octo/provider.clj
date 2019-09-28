@@ -6,7 +6,7 @@
 (def detection {:octo.gitblit #{:url :password} :octo.github #{:token}})
 
 (defn- resolve-
-  "resolve function provided as a symbol with the form of ns/fn"
+  "Resolve a function provided as a symbol with the form of ns/fn"
   [n f]
   (let [n' (name n) f' (name f) space (str n' "." f')]
     (try

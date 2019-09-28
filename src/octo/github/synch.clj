@@ -1,17 +1,11 @@
 (ns octo.github.synch
   (:require
-   [me.raynes.fs :refer (delete-dir)]
-   [octo.common :refer (files purge excluded?)]
    [octo.common.synch :as cs]
    [clojure.core.strint :refer  (<<)]
    [clojure.pprint :refer (print-table)]
-   [clojure.java.io :refer (file)]
    [clojure.set :refer (intersection)]
-   [octo.git :as git]
-   [clojure.tools.trace :as t]
    [tentacles.repos :as repos]
-   [taoensso.timbre :as timbre]
-   [tentacles.users :as users]))
+   [taoensso.timbre :as timbre]))
 
 (timbre/refer-timbre)
 
@@ -41,7 +35,8 @@
    (intersection (into #{} (keys m)) #{:user :org})))
 
 (defmulti paginate
-  (fn [m auth] (identifier m)))
+  (fn [m auth]
+    (identifier m)))
 
 (defmethod paginate :user [{:keys [user]} auth]
   (run-paging (partial user-repos user auth)))
@@ -57,10 +52,13 @@
 
 (defn synch
   [workspace auth m]
-  (let [id ((identifier m) m) parent (<< "~{workspace}/sync/~{id}")
+  (let [id ((identifier m) m)
+        parent (<< "~{workspace}/sync/~{id}")
         bundles (<< "~{parent}/bundles")]
-    (cs/synch workspace auth (merge m {:parent parent :bundles bundles :repos (paginate m auth)
-                                       :f (fn [{:keys [name ssh_url git_url private]}] [name (if private ssh_url git_url)])}))))
+    (cs/synch workspace auth
+              (merge m
+                     {:parent parent :bundles bundles :repos (paginate m auth)
+                      :f (fn [{:keys [name ssh_url git_url private]}] [name (if private ssh_url git_url)])}))))
 
 (defn stale
   [auth m]

@@ -1,7 +1,6 @@
 (ns octo.common.pull
   "pull backup into restore folder"
   (:require
-   [clojure.string :refer (replace-first)]
    [octo.common.push :refer [format-]]
    [taoensso.timbre :as timbre]
    [clojure.core.strint :refer  (<<)]
@@ -9,8 +8,7 @@
    [clojure.edn :refer (read-string)]
    [me.raynes.fs :as fs]
    [clojure.java.io :refer (file)]
-   [taoensso.timbre :as timbre]
-   [clojure.java.shell :refer [sh with-sh-dir]]))
+   [clojure.java.shell :refer [with-sh-dir]]))
 
 (timbre/refer-timbre)
 
