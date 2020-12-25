@@ -90,7 +90,7 @@ Perquisites:
 * Ubuntu (Should work on any Linux system but not tested).
 
 ```bash
-$ wget https://github.com/narkisr/octo/releases/download/0.8.1/octo
+$ wget https://github.com/narkisr/octo/releases/download/0.8.2/octo
 $ sudo mv octo /usr/local/bin
 ```
 
