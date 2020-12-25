@@ -20,7 +20,7 @@
 
   :profiles {
     :dev {
-      :source-paths  ["dev" "src"]
+      :source-paths  ["dev"]
       :set-version {
          :updates [
             {:path "src/octo/core.clj" :search-regex #"\"\d+\.\d+\.\d+\""}
@@ -34,7 +34,7 @@
 
   :aliases {
      "travis" [
-        "do" "clean," "compile," "cljfmt"
+        "do" "clean," "compile," "cljfmt" "check"
      ]
   }
 
